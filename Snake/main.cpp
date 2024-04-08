@@ -71,6 +71,9 @@ void moveSnake() {
 
 // 뱀이 움직임에 따른 화면 업데이트
 void updateBoard() {
+	/*
+	삭제해야 함. 메모리를 과하게 사용하기 때문
+	*/
 	initializeBoard(SIZE);
 
 	for (int i = 0; i < snakeLength; i++) {
