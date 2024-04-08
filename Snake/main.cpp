@@ -44,6 +44,11 @@ void initializeSnake(int size) {
 	snake[0].y = 10;
 }
 
+/**
+* void moveSnake()
+* 다음 위치를 저장, 뱀의 머리를 다음 위치로 이동
+* 나머지 뱀의 몸통을 순회하며 이전 위치로 업데이트
+*/
 void moveSnake() {
 	int ny = snake[0].y + dy[snakeDirection];
 	int nx = snake[0].x + dx[snakeDirection];
