@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <time.h> // For clock_t and clock()
+#include <conio.h>
 
 
 #define SIZE 20
@@ -108,6 +109,12 @@ int main() {
 	while (true) {
 		clock_t currentTime = clock(); // Get current time
 		double elapsedTime = (double)(currentTime - lastUpdateTime) / CLOCKS_PER_SEC;
+
+
+		if (_kbhit()) {
+			int key_code = _getch();
+			printf("%d\n", key_code);
+		}
 
 		if (elapsedTime >= TICK_RATE) {
 			system("cls"); // Clear the console (UNIX-based systems)
