@@ -110,7 +110,6 @@ int main() {
 		clock_t currentTime = clock(); // Get current time
 		double elapsedTime = (double)(currentTime - lastUpdateTime) / CLOCKS_PER_SEC;
 
-
 		if (_kbhit()) {
 			//72 80 75 77
 			int key_code = _getch();
@@ -119,7 +118,7 @@ int main() {
 				if (key_code == 72) snakeDirection = 0;
 				else if (key_code == 80) snakeDirection = 1;
 				else if (key_code == 75) snakeDirection = 2;
-				else snakeDirection = 3;
+				else if (key_code == 77) snakeDirection = 3;
 			}
 		}
 
