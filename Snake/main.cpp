@@ -1,11 +1,32 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h> // For clock_t and clock()
+
+
+#define SIZE 20
+#define TICK_RATE 0.5
 
 char*** board;
 
+int snakeLength = 1;
+int snakeDirection = 0;
+
+// 뱀의 방향, 상 하 좌 우
+int dx[] = {0, 0, -1, 1};
+int dy[] = {-1, 1, 0, 0};
+
+// Define a structure to represent the snake
+typedef struct {
+	int x;
+	int y;
+} SnakeBody;
+
+SnakeBody snake[SIZE * SIZE];
+
 // □■
 
+// BOARD를 모두 빈 칸으로 초기화하는 함수
 void initializeBoard(int size) {
 	board = (char***)malloc(size * sizeof(char**));
 	for (int i = 0; i < size; i++) {
@@ -17,16 +38,77 @@ void initializeBoard(int size) {
 	}
 }
 
+// 최초 뱀 위치 설정
+void initializeSnake(int size) {
+	snake[0].x = 10;
+	snake[0].y = 10;
+}
+
+void moveSnake() {
+	int ny = snake[0].y + dy[snakeDirection];
+	int nx = snake[0].x + dx[snakeDirection];
+
+	if (ny >= SIZE || nx >= SIZE || ny < 0 || nx < 0) return;
+
+	// 이전 위치 저장
+	int by = -1, bx = -1;
+	for (int i = 0; i < snakeLength; i++) {
+		by = snake[0].y;
+		bx = snake[0].x;
+
+		snake[0].y = ny;
+		snake[0].x = nx;
+
+		ny = by;
+		nx = nx;
+	}
+}
+
+// 뱀이 움직임에 따른 화면 업데이트
+void updateBoard() {
+	initializeBoard(SIZE);
+
+	for (int i = 0; i < snakeLength; i++) {
+		int y = snake[i].y;
+		int x = snake[i].x;
+
+		strcpy(board[y][x], "■");
+	}
+}
+
+// 화면 출력
+void printBoard(int size) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			printf("%s", board[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+
 int main() {
 	int size = 20;
 	const char *whiteSquare = "ㅁsdf";
 	const char *blackSquare = "ㅁ";
 
 	initializeBoard(size);
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			printf("%s", board[i][j]);
+	initializeSnake(size);
+
+	clock_t lastUpdateTime = clock(); // Get initial time
+
+	while (true) {
+		clock_t currentTime = clock(); // Get current time
+		double elapsedTime = (double)(currentTime - lastUpdateTime) / CLOCKS_PER_SEC;
+
+		if (elapsedTime >= TICK_RATE) {
+			system("cls"); // Clear the console (UNIX-based systems)
+
+			moveSnake();
+			updateBoard();
+			printBoard(size);
+
+			lastUpdateTime = currentTime; // Update last update time
 		}
-		printf("\n");
 	}
 }
