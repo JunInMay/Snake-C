@@ -112,8 +112,15 @@ int main() {
 
 
 		if (_kbhit()) {
+			//72 80 75 77
 			int key_code = _getch();
-			printf("%d\n", key_code);
+			if (key_code == 224) {
+				key_code = _getch();
+				if (key_code == 72) snakeDirection = 0;
+				else if (key_code == 80) snakeDirection = 1;
+				else if (key_code == 75) snakeDirection = 2;
+				else snakeDirection = 3;
+			}
 		}
 
 		if (elapsedTime >= TICK_RATE) {
